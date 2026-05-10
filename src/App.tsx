@@ -47,37 +47,31 @@ function App() {
 
   if (!rangeSet) {
     return (
-    <main
-      id="center"
-      className="flex flex-col items-center justify-center grow gap-8 p-8"
-      aria-label="Game setup"
-    >
-      <h1 className="text-5xl font-medium text-foreground m-0">
-        TalesRunner Sphinx Juker
-      </h1>
-        <Card className="w-auto">
+      <main className="flex flex-col items-center justify-center grow gap-8 p-8">
+        <h1 className="text-5xl font-medium text-foreground">
+          TalesRunner Sphinx Juker
+        </h1>
+        <Card className="w-full max-w-sm">
           <CardHeader>
-            <CardTitle className="text-center">Set Your Range</CardTitle>
+            <CardTitle>Set Your Range</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
-            <div className="flex gap-4">
-              <Label htmlFor="input-low">Low:</Label>
+            <div className="flex items-center gap-4">
+              <Label htmlFor="input-low">Low</Label>
               <Input
                 id="input-low"
                 type="number"
                 value={low}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLow(Number(e.target.value))}
-                aria-describedby="low-desc"
               />
             </div>
-            <div className="flex gap-4">
-              <Label htmlFor="input-high">High:</Label>
+            <div className="flex items-center gap-4">
+              <Label htmlFor="input-high">High</Label>
               <Input
                 id="input-high"
                 type="number"
                 value={high}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHigh(Number(e.target.value))}
-                aria-describedby="high-desc"
               />
             </div>
             <Button onClick={handleStart} disabled={low >= high}>
@@ -93,61 +87,51 @@ function App() {
 
   if (state.isComplete) {
     return (
-      <main
-        id="center"
-        className="flex flex-col items-center justify-center grow gap-8 p-8"
-        aria-label="Game complete"
-      >
-        <h1 className="text-5xl font-medium text-foreground m-0">
-          The number is
+      <main className="flex flex-col items-center justify-center grow gap-6 p-8">
+        <h1 className="text-4xl font-medium text-foreground">
+          Your number is
         </h1>
-        <p className="text-accent font-bold m-0" aria-live="polite">
+        <p className="text-6xl font-bold text-accent">
           {state.currentGuess}
         </p>
-        <p className="text-sm text-muted-foreground">Attempts: {state.attempts}</p>
+        <p className="text-sm text-muted-foreground">
+          Found in {state.attempts} attempt{state.attempts !== 1 ? 's' : ''}
+        </p>
         <Button onClick={handleReset}>Play Again</Button>
       </main>
     );
   }
 
   return (
-    <main
-      id="center"
-      className="flex flex-col items-center justify-center grow gap-6 p-8"
-      aria-label="Game in progress"
-    >
-      <p className="text-sm text-muted-foreground" aria-live="polite">
+    <main className="flex flex-col items-center justify-center grow gap-6 p-8">
+      <p className="text-sm text-muted-foreground">
         Range: {state.low} - {state.high}
       </p>
-      <Card className="w-auto">
+
+      <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle>Your guess:</CardTitle>
+          <CardTitle>My guess</CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-col gap-4 items-center">
-          <Input
-            type="number"
-            className="w-48 text-center text-2xl"
-            value={state.currentGuess ?? ''}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              const val = Number(e.target.value);
-              if (!isNaN(val)) {
-                setState((prev) =>
-                  prev ? { ...prev, currentGuess: val } : null
-                );
-              }
-            }}
-            aria-label="Current guess"
-          />
-          <p className="text-base text-foreground">Is your number higher or lower?</p>
-          <div className="flex gap-3" role="group" aria-label="Response buttons">
-            <Button onClick={() => handleResponse('higher')}>Higher</Button>
-            <Button onClick={() => handleResponse('correct')} variant="default">
+        <CardContent className="flex flex-col items-center gap-6">
+          <p className="text-5xl font-bold text-accent">
+            {state.currentGuess}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Is your number higher or lower?
+          </p>
+          <div className="flex gap-3" role="group">
+            <Button onClick={() => handleResponse('lower')} variant="outline">
+              Lower
+            </Button>
+            <Button onClick={() => handleResponse('correct')}>
               Correct!
             </Button>
-            <Button onClick={() => handleResponse('lower')}>Lower</Button>
+            <Button onClick={() => handleResponse('higher')} variant="outline">
+              Higher
+            </Button>
           </div>
-          <p className="text-sm text-muted-foreground" aria-live="polite">
-            Attempts: {state.attempts}
+          <p className="text-xs text-muted-foreground">
+            Attempt {state.attempts}
           </p>
         </CardContent>
       </Card>
