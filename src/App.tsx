@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import confetti from 'canvas-confetti';
 import {
   createBinarySearch,
   nextGuess,
@@ -35,6 +36,7 @@ function App() {
     const newState = narrowRange(state, result);
     if (newState.isComplete) {
       setState(newState);
+      confetti();
     } else {
       setState(nextGuess(newState));
     }
