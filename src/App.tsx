@@ -40,6 +40,11 @@ function App() {
     }
   };
 
+  const handleGuessChange = (value: number) => {
+    if (!state) return;
+    setState({ ...state, currentGuess: value });
+  };
+
   const handleReset = () => {
     setRangeSet(false);
     setState(null);
@@ -113,20 +118,38 @@ function App() {
           <CardTitle>My guess</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-6">
-          <p className="text-5xl font-bold text-accent">
-            {state.currentGuess}
+          <p className="text-8xl font-bold text-accent">
+            <Input
+              type="number"
+              className="w-64 text-center h-28"
+              style={{ fontSize: '4rem' }}
+              value={state.currentGuess ?? ''}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleGuessChange(Number(e.target.value))
+              }
+              min={state.low ?? undefined}
+              max={state.high ?? undefined}
+            />
           </p>
           <p className="text-sm text-muted-foreground">
             Is your number higher or lower?
           </p>
           <div className="flex gap-3" role="group">
-            <Button onClick={() => handleResponse('lower')} variant="outline">
+            <Button
+              onClick={() => handleResponse('lower')}
+              variant="outline"
+              disabled={state.currentGuess !== null && state.currentGuess <= state.low}
+            >
               Lower
             </Button>
             <Button onClick={() => handleResponse('correct')}>
               Correct!
             </Button>
-            <Button onClick={() => handleResponse('higher')} variant="outline">
+            <Button
+              onClick={() => handleResponse('higher')}
+              variant="outline"
+              disabled={state.currentGuess !== null && state.currentGuess >= state.high}
+            >
               Higher
             </Button>
           </div>
