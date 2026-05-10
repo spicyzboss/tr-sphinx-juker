@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tr-sphinx-juker.pages.dev/sitemap.xml

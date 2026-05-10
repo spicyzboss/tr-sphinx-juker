@@ -6,6 +6,15 @@ import {
   type BinarySearchState,
   type ComparisonResult,
 } from './lib/binarySearch';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 function App() {
   const [rangeSet, setRangeSet] = useState(false);
@@ -38,37 +47,45 @@ function App() {
 
   if (!rangeSet) {
     return (
-      <section id="center" className="flex flex-col items-center justify-center grow gap-8 p-8">
-        <h1 className="text-5xl font-medium text-[var(--text-h)] m-0">TalesRunner Sphinx Juker</h1>
-        <div className="flex gap-4">
-          <label className="flex items-center gap-2 text-base">
-            Low:
-            <input
-              type="number"
-              className="w-24 p-2 text-base rounded-md border-2 border-[var(--border)] bg-[var(--social-bg)] text-[var(--text)]"
-              value={low}
-              onChange={(e) => setLow(Number(e.target.value))}
-            />
-          </label>
-          <label className="flex items-center gap-2 text-base">
-            High:
-            <input
-              type="number"
-              className="w-24 p-2 text-base rounded-md border-2 border-[var(--border)] bg-[var(--social-bg)] text-[var(--text)]"
-              value={high}
-              onChange={(e) => setHigh(Number(e.target.value))}
-            />
-          </label>
-        </div>
-        <button
-          type="button"
-          className="px-4 py-2 text-base rounded-md bg-[var(--accent-bg)] text-[var(--accent)] border-2 border-transparent hover:border-[var(--accent-border)] disabled:opacity-50"
-          onClick={handleStart}
-          disabled={low >= high}
-        >
-          Start Game
-        </button>
-      </section>
+      <main
+        id="center"
+        className="flex flex-col items-center justify-center grow gap-8 p-8"
+        aria-label="Game setup"
+      >
+        <h1 className="text-5xl font-medium text-[var(--text-h)] m-0">
+          TalesRunner Sphinx Juker
+        </h1>
+        <Card className="w-auto">
+          <CardHeader>
+            <CardTitle className="text-center">Set Your Range</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            <div className="flex gap-4">
+              <Label htmlFor="input-low">Low:</Label>
+              <Input
+                id="input-low"
+                type="number"
+                value={low}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLow(Number(e.target.value))}
+                aria-describedby="low-desc"
+              />
+            </div>
+            <div className="flex gap-4">
+              <Label htmlFor="input-high">High:</Label>
+              <Input
+                id="input-high"
+                type="number"
+                value={high}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHigh(Number(e.target.value))}
+                aria-describedby="high-desc"
+              />
+            </div>
+            <Button onClick={handleStart} disabled={low >= high}>
+              Start Game
+            </Button>
+          </CardContent>
+        </Card>
+      </main>
     );
   }
 
@@ -76,64 +93,65 @@ function App() {
 
   if (state.isComplete) {
     return (
-      <section id="center" className="flex flex-col items-center justify-center grow gap-8 p-8">
-        <h1 className="text-5xl font-medium text-[var(--text-h)] m-0">The number is</h1>
-        <p className="text-4xl font-bold text-[var(--accent)] m-0">{state.currentGuess}</p>
+      <main
+        id="center"
+        className="flex flex-col items-center justify-center grow gap-8 p-8"
+        aria-label="Game complete"
+      >
+        <h1 className="text-5xl font-medium text-[var(--text-h)] m-0">
+          The number is
+        </h1>
+        <p className="text-4xl font-bold text-[var(--accent)] m-0" aria-live="polite">
+          {state.currentGuess}
+        </p>
         <p className="text-sm text-[var(--text)]">Attempts: {state.attempts}</p>
-        <button
-          type="button"
-          className="px-4 py-2 text-base rounded-md bg-[var(--accent-bg)] text-[var(--accent)] border-2 border-transparent hover:border-[var(--accent-border)]"
-          onClick={handleReset}
-        >
-          Play Again
-        </button>
-      </section>
+        <Button onClick={handleReset}>Play Again</Button>
+      </main>
     );
   }
 
   return (
-    <section id="center" className="flex flex-col items-center justify-center grow gap-6 p-8">
-      <p className="text-sm text-[var(--text)]">Range: {state.low} - {state.high}</p>
-      <p className="text-base text-[var(--text)]">Your guess:</p>
-      <input
-        type="number"
-        className="w-48 p-4 text-4xl text-center rounded-lg border-2 border-[var(--accent-border)] bg-[var(--social-bg)] text-[var(--accent)]"
-        value={state.currentGuess ?? ''}
-        onChange={(e) => {
-          const val = Number(e.target.value);
-          if (!isNaN(val)) {
-            setState((prev) =>
-              prev ? { ...prev, currentGuess: val } : null
-            );
-          }
-        }}
-      />
-      <p className="text-base text-[var(--text)]">Is your number higher or lower?</p>
-      <div className="flex gap-3">
-        <button
-          type="button"
-          className="px-6 py-3 text-lg rounded-lg bg-[var(--accent-bg)] text-[var(--accent)] border-2 border-[var(--accent-border)] hover:bg-[var(--accent)] hover:text-[var(--accent-bg)] transition-colors"
-          onClick={() => handleResponse('higher')}
-        >
-          Higher
-        </button>
-        <button
-          type="button"
-          className="px-6 py-3 text-lg rounded-lg bg-[var(--accent-bg)] text-[var(--accent)] border-2 border-[var(--accent-border)] hover:bg-[var(--accent)] hover:text-[var(--accent-bg)] transition-colors"
-          onClick={() => handleResponse('correct')}
-        >
-          Correct!
-        </button>
-        <button
-          type="button"
-          className="px-6 py-3 text-lg rounded-lg bg-[var(--accent-bg)] text-[var(--accent)] border-2 border-[var(--accent-border)] hover:bg-[var(--accent)] hover:text-[var(--accent-bg)] transition-colors"
-          onClick={() => handleResponse('lower')}
-        >
-          Lower
-        </button>
-      </div>
-      <p className="text-sm text-[var(--text)]">Attempts: {state.attempts}</p>
-    </section>
+    <main
+      id="center"
+      className="flex flex-col items-center justify-center grow gap-6 p-8"
+      aria-label="Game in progress"
+    >
+      <p className="text-sm text-[var(--text)]" aria-live="polite">
+        Range: {state.low} - {state.high}
+      </p>
+      <Card className="w-auto">
+        <CardHeader>
+          <CardTitle>Your guess:</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4 items-center">
+          <Input
+            type="number"
+            className="w-48 text-center text-2xl"
+            value={state.currentGuess ?? ''}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const val = Number(e.target.value);
+              if (!isNaN(val)) {
+                setState((prev) =>
+                  prev ? { ...prev, currentGuess: val } : null
+                );
+              }
+            }}
+            aria-label="Current guess"
+          />
+          <p className="text-base text-[var(--text-h)]">Is your number higher or lower?</p>
+          <div className="flex gap-3" role="group" aria-label="Response buttons">
+            <Button onClick={() => handleResponse('higher')}>Higher</Button>
+            <Button onClick={() => handleResponse('correct')} variant="default">
+              Correct!
+            </Button>
+            <Button onClick={() => handleResponse('lower')}>Lower</Button>
+          </div>
+          <p className="text-sm text-[var(--text)]" aria-live="polite">
+            Attempts: {state.attempts}
+          </p>
+        </CardContent>
+      </Card>
+    </main>
   );
 }
 
