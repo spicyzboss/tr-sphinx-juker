@@ -82,7 +82,7 @@ function App() {
               />
             </div>
             <Button onClick={handleStart} disabled={low >= high}>
-              Start Game
+              Start
             </Button>
           </CardContent>
         </Card>
