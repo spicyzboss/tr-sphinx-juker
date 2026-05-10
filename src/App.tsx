@@ -47,14 +47,14 @@ function App() {
 
   if (!rangeSet) {
     return (
-      <main
-        id="center"
-        className="flex flex-col items-center justify-center grow gap-8 p-8"
-        aria-label="Game setup"
-      >
-        <h1 className="text-5xl font-medium text-[var(--text-h)] m-0">
-          TalesRunner Sphinx Juker
-        </h1>
+    <main
+      id="center"
+      className="flex flex-col items-center justify-center grow gap-8 p-8"
+      aria-label="Game setup"
+    >
+      <h1 className="text-5xl font-medium text-foreground m-0">
+        TalesRunner Sphinx Juker
+      </h1>
         <Card className="w-auto">
           <CardHeader>
             <CardTitle className="text-center">Set Your Range</CardTitle>
@@ -98,13 +98,13 @@ function App() {
         className="flex flex-col items-center justify-center grow gap-8 p-8"
         aria-label="Game complete"
       >
-        <h1 className="text-5xl font-medium text-[var(--text-h)] m-0">
+        <h1 className="text-5xl font-medium text-foreground m-0">
           The number is
         </h1>
-        <p className="text-4xl font-bold text-[var(--accent)] m-0" aria-live="polite">
+        <p className="text-accent font-bold m-0" aria-live="polite">
           {state.currentGuess}
         </p>
-        <p className="text-sm text-[var(--text)]">Attempts: {state.attempts}</p>
+        <p className="text-sm text-muted-foreground">Attempts: {state.attempts}</p>
         <Button onClick={handleReset}>Play Again</Button>
       </main>
     );
@@ -116,7 +116,7 @@ function App() {
       className="flex flex-col items-center justify-center grow gap-6 p-8"
       aria-label="Game in progress"
     >
-      <p className="text-sm text-[var(--text)]" aria-live="polite">
+      <p className="text-sm text-muted-foreground" aria-live="polite">
         Range: {state.low} - {state.high}
       </p>
       <Card className="w-auto">
@@ -138,7 +138,7 @@ function App() {
             }}
             aria-label="Current guess"
           />
-          <p className="text-base text-[var(--text-h)]">Is your number higher or lower?</p>
+          <p className="text-base text-foreground">Is your number higher or lower?</p>
           <div className="flex gap-3" role="group" aria-label="Response buttons">
             <Button onClick={() => handleResponse('higher')}>Higher</Button>
             <Button onClick={() => handleResponse('correct')} variant="default">
@@ -146,7 +146,7 @@ function App() {
             </Button>
             <Button onClick={() => handleResponse('lower')}>Lower</Button>
           </div>
-          <p className="text-sm text-[var(--text)]" aria-live="polite">
+          <p className="text-sm text-muted-foreground" aria-live="polite">
             Attempts: {state.attempts}
           </p>
         </CardContent>
